@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "django-sample-project"
+version = "0.1.0"
+description = ""
+authors = ["kyeon06 <jkyeon06@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^5.0"
+djangorestframework = "^3.14.0"
+djangorestframework-simplejwt = "^5.3.1"
+drf-yasg = "^1.21.7"
+django-environ = "^0.11.2"
+psycopg2 = "^2.9.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
