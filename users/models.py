@@ -38,13 +38,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ["username"]
 
     class Meta:
         db_table = "users"
 
     def __str__(self):
-        return self.username
+        return self.email
     
     @property
     def is_staff(self):
