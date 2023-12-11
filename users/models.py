@@ -37,14 +37,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email"]
 
     class Meta:
         db_table = "users"
 
     def __str__(self):
-        return self.email
+        return self.username
     
     @property
     def is_staff(self):
