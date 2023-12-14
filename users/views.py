@@ -76,5 +76,6 @@ class LoginView(APIView):
         )
 
         res.set_cookie("access", access_token, httponly=True)
+        res.set_cookie("refresh", refresh_token, httponly=True)
         
         return res
