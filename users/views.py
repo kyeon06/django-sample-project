@@ -17,7 +17,11 @@ class SignupAPIView(APIView):
     @swagger_auto_schema(
         operation_id="회원가입",
         operation_description="계정명, 이메일, 비밀번호를 입력받아 회원가입을 진행합니다.",
-        request_body=USER_REGISTER_PARAMETERS
+        request_body=USER_SIGNUP_REQUEST_BODY,
+        responses={
+            200 : USER_SIGNUP_200_RESPONSE_BODY,
+            400 : USER_SIGNUP_400_RESPONSE_BODY 
+        }
     )
     def post(self, request):
         serializer = SignupSerializer(data=request.data)
@@ -33,7 +37,9 @@ class SignupAPIView(APIView):
 
             return Response(data, status=status.HTTP_201_CREATED)
         
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message" : "회원가입을 실패하였습니다.",
+                         "error" : serializer.errors},
+                         status=status.HTTP_400_BAD_REQUEST)
     
 
 # api/v1/users/login/
@@ -43,17 +49,19 @@ class LoginView(APIView):
     @swagger_auto_schema(
         operation_id="로그인",
         operation_description="계정명, 비밀번호로 로그인합니다.",
-        request_body=USER_LOGIN_PARAMETERS
+        request_body=USER_LOGIN_REQUEST_BODY,
+        responses={
+            200 : USER_LOGIN_200_RESPONSE_BODY,
+            400 : USER_LOGIN_400_RESPONSE_BODY,
+            404 : USER_LOGIN_404_RESPONSE_BODY,
+        }
     )
     def post(self, request):
         username = request.data.get("username")
         password = request.data.get("password")
 
-        if username is None:
-            return Response({"message":"계정명은 필수 입력사항입니다."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        if password is None:
-            return Response({"message":"비밀번호는 필수 입력사항입니다."}, status=status.HTTP_400_BAD_REQUEST)
+        if username is None or password is None:
+            return Response({"message":"계정명,비밀번호는 필수 입력사항입니다."}, status=status.HTTP_400_BAD_REQUEST)
         
         # 해당하는 사용자가 있는지 판단
         user = authenticate(username=username, password=password)
@@ -69,8 +77,7 @@ class LoginView(APIView):
 
         res = Response(
             {
-                "data": serializer.data,
-                "message": "login success"
+                "message": "로그인 성공하였습니다."
             },
             status=status.HTTP_200_OK,
         )
