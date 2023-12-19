@@ -19,14 +19,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     # admin
-    path('admin/', admin.site.urls),
-
+    path("admin/", admin.site.urls),
     # api
-    path('api/v1/users/', include('users.urls')),
-
+    path("api/v1/users/", include("users.urls")),
     # swagger
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
-
+    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,29 +1,28 @@
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 
 
 class UserManager(BaseUserManager):
-    
     def create_user(self, email, username, password, **extra_fields):
         if not username:
             raise ValueError("username은 필수 입력 내용입니다.")
-        
+
         if not email:
             raise ValueError("email은 필수 입력 내용입니다.")
-        
-        user = self.model(
-            username=username,
-            email=email,
-            **extra_fields
-        )
+
+        user = self.model(username=username, email=email, **extra_fields)
 
         user.set_password(password)
         user.save(using=self._db)
         return user
-    
+
     def create_superuser(self, email, username, password, **extra_fields):
-        extra_fields.setdefault('is_admin', True)
-        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault("is_admin", True)
+        extra_fields.setdefault("is_superuser", True)
         return self.create_user(username=username, email=email, password=password, **extra_fields)
 
 
@@ -45,8 +44,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
-    
+
     @property
     def is_staff(self):
-        """ admin 권한 설정 """
+        """admin 권한 설정"""
         return self.is_admin
