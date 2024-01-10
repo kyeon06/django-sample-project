@@ -22,6 +22,7 @@ THIRD_PARTY_APPS = [
     "drf_yasg",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "corsheaders",
 ]
 
 CUSTOM_APPS = [
@@ -40,6 +41,7 @@ SYSTEM_APPS = [
 INSTALLED_APPS = SYSTEM_APPS + CUSTOM_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -150,3 +152,11 @@ SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {"BearerAuth": {"type": "apiKey", "name": "Authorization", "in": "header", "description": "JWT Token"}},
     "SECURITY_REQUIREMENTS": [{"BearerAuth": []}],
 }
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_CREDENTIALS = True
